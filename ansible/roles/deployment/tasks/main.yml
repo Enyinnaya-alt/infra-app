@@ -1,0 +1,10 @@
+- name: Clone application repository
+  git:
+    repo: "https://github.com/Enyinnaya-alt/DevOps-Stage-4.git"
+    dest: "/opt/todos-api"
+    version: main
+
+- name: Run Docker Compose
+  command: docker-compose up -d
+  args:
+    chdir: /opt/todos-api
