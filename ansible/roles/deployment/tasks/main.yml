@@ -3,6 +3,7 @@
     repo: "https://github.com/Enyinnaya-alt/DevOps-Stage-4.git"
     dest: "/opt/todos-api"
     version: main
+    force: yes
 
 - name: Run Docker Compose
   command: docker-compose up -d

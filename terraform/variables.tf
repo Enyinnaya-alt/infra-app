@@ -15,5 +15,5 @@ variable "security_group" {
 }
 
 variable "domain_name" {
-  default = "princecloud.site"
+  default = "princeze.xyz"
 }

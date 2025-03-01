@@ -45,10 +45,26 @@ resource "aws_instance" "todo_app" {
 
   provisioner "local-exec" {
     command = <<EOT
-      mkdir -p ../ansible  # Ensure ansible directory exists
-      echo "[servers]" > ../ansible/inventory
-      echo "${self.public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/stage_4.pem" >> ../ansible/inventory
+      echo "Waiting for SSH to become available..."
+      sleep 60  # Wait 60 seconds to ensure SSH is ready
+
+      echo "Generating Ansible inventory file..."
+      mkdir -p ../ansible
+      cat <<EOF > ../ansible/inventory.yml
+      all:
+        hosts:
+          server:
+            ansible_host: ${self.public_ip}
+            ansible_user: ec2-user
+            ansible_ssh_private_key_file: ~/.ssh/stage_4.pem
+      EOF
+
+      echo "Running Ansible playbook..."
+      ansible-playbook -i ../ansible/inventory.yml ../ansible/playbook.yml
     EOT
-  
+  }
+
+  tags = {
+    Name = "todo-app-instance"
   }
 }

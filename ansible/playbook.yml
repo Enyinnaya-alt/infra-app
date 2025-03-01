@@ -1,10 +1,19 @@
 - hosts: servers
   become: yes
   tasks:
-    - name: Install Git
-      yum:
+    - name: Install Git on Amazon Linux 2023
+      dnf:
         name: git
         state: present
+
+    - name: Verify Git Installation
+      command: git --version
+      register: git_version
+      changed_when: false
+
+    - name: Debug Git Version
+      debug:
+        msg: "Git is installed: {{ git_version.stdout }}"
 
   roles:
     - dependencies
